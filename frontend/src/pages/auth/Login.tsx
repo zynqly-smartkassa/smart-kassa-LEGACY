@@ -71,7 +71,11 @@ function Login() {
     );
   };
 
-  useWarningToast(toastState.showWarning, "Hinweis: Sie müssen sich anmelden oder registrieren, bevor Sie unseren Service nutzen können.", dispatch);
+  useWarningToast(
+    toastState.showWarning,
+    "Hinweis: Sie müssen sich anmelden oder registrieren, bevor Sie unseren Service nutzen können.",
+    dispatch,
+  );
 
   return (
     <main
@@ -88,7 +92,9 @@ function Login() {
         />
         <CardHeader className="text-center">
           <CardTitle>Anmelden</CardTitle>
-          <CardDescription>Melden Sie sich mit Ihren Zugangsdaten an</CardDescription>
+          <CardDescription>
+            Melden Sie sich mit Ihren Zugangsdaten an
+          </CardDescription>
         </CardHeader>
         <form onSubmit={handleSubmit(onSubmit)}>
           <CardContent>
@@ -137,6 +143,34 @@ function Login() {
               data-testid="login"
             >
               Jetzt anmelden
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full"
+              data-testid="login"
+              onClick={() => {
+                toast.promise(
+                  async () => {
+                    await login(
+                      "guestaccount@gmail.com",
+                      "Passwort#1",
+                      dispatch,
+                    );
+                  },
+                  {
+                    loading: "Anmelden...",
+                    success: async () => {
+                      await navigator("/");
+                      return "Erfolg: Login erfolgreich! Sie werden weitergeleitet...";
+                    },
+                    error: (err) => handleLoginError(err),
+                    className: "mt-5 md:mt-0",
+                  },
+                );
+              }}
+            >
+              Als Gast Fortfahren
             </Button>
             <div className="w-full flex justify-center mt-2 text-center">
               <div className="text-sm text-muted-foreground">
