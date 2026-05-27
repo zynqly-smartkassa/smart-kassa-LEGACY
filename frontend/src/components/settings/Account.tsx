@@ -112,7 +112,6 @@ const Account = (): JSX.Element => {
       console.error(error);
       if (error instanceof AxiosError) {
         const isAuthError =
-          error.status === 403 ||
           error.status === 401 ||
           error.response?.data?.path === "auth middleware";
 
@@ -124,6 +123,10 @@ const Account = (): JSX.Element => {
           // Second attempt failed - session expired
           throw new Error(
             "Sitzung abgelaufen. Bitte melden Sie sich erneut an.",
+          );
+        } else if (error.status === 403) {
+          throw new Error(
+            "Gast Nutzer darf sein Profil Bild nicht aktualisieren.",
           );
         } else {
           throw new Error(
@@ -150,7 +153,12 @@ const Account = (): JSX.Element => {
       },
       {
         success: "Profilbild aktualisiert!",
-        error: "Ein unerwarteter Fehler ist aufgetreten.",
+        error: (err) => {
+          if (err instanceof Error) {
+            return err.message;
+          } else
+            return "Ein Fehler beim aktualisieren vom Profilbild ist aufgetreten";
+        },
         loading: "Profilbild wird aktualisiert",
         className: "mt-5 md:mt-0",
       },
@@ -301,7 +309,7 @@ const Account = (): JSX.Element => {
                           {...field}
                           placeholder="Max"
                           className={
-                            !!form.formState.errors.firstName
+                            form.formState.errors.firstName
                               ? "h-11 bg-gray-100 dark:bg-gray-700 border-2 border-red-500 focus:ring-2 focus:ring-violet-400"
                               : "h-11 bg-gray-100 dark:bg-gray-700 border border-violet-400 focus:ring-2 focus:ring-violet-400"
                           }
@@ -324,7 +332,7 @@ const Account = (): JSX.Element => {
                           {...field}
                           placeholder="Mustermann"
                           className={
-                            !!form.formState.errors.lastName
+                            form.formState.errors.lastName
                               ? "h-11 bg-gray-100 dark:bg-gray-700 border-2 border-red-500 focus:ring-2 focus:ring-violet-400"
                               : "h-11 bg-gray-100 dark:bg-gray-700 border border-violet-400 focus:ring-2 focus:ring-violet-400"
                           }
@@ -348,7 +356,7 @@ const Account = (): JSX.Element => {
                             {...field}
                             placeholder="beispiel@mail.com"
                             className={
-                              !!form.formState.errors.email
+                              form.formState.errors.email
                                 ? "h-11 bg-gray-100 dark:bg-gray-700 border-2 border-red-500 focus:ring-2 focus:ring-violet-400"
                                 : "h-11 bg-gray-100 dark:bg-gray-700 border border-violet-400 focus:ring-2 focus:ring-violet-400"
                             }

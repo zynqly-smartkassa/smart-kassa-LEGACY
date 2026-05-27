@@ -343,7 +343,7 @@ export async function deleteAccount(
 
       // Check for auth errors (except invalid password) and retry with refreshed token
       const isAuthError =
-        (status === 403 || status === 401 || path === "auth middleware") &&
+        (status === 401 || path === "auth middleware") &&
         errorMessage !== "Invalid password";
 
       if (isAuthError && retry) {
@@ -362,6 +362,8 @@ export async function deleteAccount(
         throw new Error("Invalid Request");
       } else if (status === 401 && errorMessage === "Invalid password") {
         throw new Error("Invalid Password");
+      } else if (status === 403) {
+        throw new Error("Guest User can not delete Account");
       } else if (
         status === 500 ||
         status === 502 ||

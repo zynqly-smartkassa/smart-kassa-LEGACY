@@ -105,6 +105,8 @@ export function handleDeleteAccountError(error: unknown): string {
         return "Fehler: Keine Internetverbindung. Bitte überprüfen Sie Ihre Verbindung.";
       case "Timeout":
         return "Fehler: Die Verbindung hat zu lange gedauert. Bitte versuchen Sie es erneut.";
+      case "Guest User can not delete Account":
+        return "Gast Nutzer kann sein Profil nicht löschen";
       default:
         return "Fehler: Konto konnte nicht gelöscht werden. Bitte versuchen Sie es erneut.";
     }
