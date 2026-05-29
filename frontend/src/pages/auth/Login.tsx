@@ -84,7 +84,7 @@ function Login() {
     >
       <Card className="w-11/12 max-w-sm my-5 dark:bg-zinc-900 pt-4">
         <img
-          src="Logo.png"
+          src="Logo.webp"
           width={220}
           height={220}
           alt="Logo"

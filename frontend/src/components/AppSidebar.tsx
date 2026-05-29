@@ -79,7 +79,7 @@ export function AppSidebar() {
 
   return (
     <Sidebar className="hidden lg:flex w-full max-w-64 z-50">
-      <SidebarHeader className="flex pt-10 md:pt-5 flex-row justify-between items-center">
+      <SidebarHeader className="flex pt-10 md:pt-5 flex-row justify-between lg:justify-center items-top">
         <Link
           to="/"
           onClick={() => {
@@ -88,10 +88,10 @@ export function AppSidebar() {
           }}
         >
           <img
-            src="/Logo.png"
+            src="/Logo.webp"
             width={120}
             height={120}
-            className="w-32 h-16 md:w-40 md:h-20"
+            className="w-30 h-30 sm:w-32 sm:h-32 md:w-36 md:h-36 lg:w-40 lg:h-40"
           ></img>
         </Link>
 
