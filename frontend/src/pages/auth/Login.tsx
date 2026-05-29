@@ -148,7 +148,6 @@ function Login() {
               type="button"
               variant="outline"
               className="w-full"
-              data-testid="login"
               onClick={() => {
                 toast.promise(
                   async () => {

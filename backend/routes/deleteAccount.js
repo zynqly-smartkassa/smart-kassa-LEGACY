@@ -17,13 +17,6 @@ router.delete("/", authenticateToken, checkGuest, async (req, res) => {
   const refreshToken = req.cookies.refreshToken;
   const user_id = req.user.userId;
 
-    if (isGuest(user_id)) {
-      return res.status(403).json({
-        error: "Forbidden",
-        message: "Guest User can not update his Profile",
-      });
-    }
-
   // to check which value is missing
   if (!refreshToken || !user_id) {
     let missingFieldsMessage = "Refresh Token or User ID are not provided"; // a let variable to dynamically change the message depending on what's missing
