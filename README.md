@@ -1,7 +1,7 @@
-# Zynqly - smart-kassa
+# Zynqlys Smart-Kassa - Prototype
 
 <p align=center>
- <a href="https://smart-kassa.vercel.app/"><img src="./frontend/public/Logo.svg" width=300> </a>
+ <a href="https://smart-kassa.vercel.app/"><img src="./frontend/public/Logo.webp" width=300> </a>
 </p>
 
 ## What is it about?

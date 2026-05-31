@@ -1,11 +1,13 @@
 import express from "express";
 import pool from "../db.js";
 import { authenticateToken } from "../middleware/auth.js";
+import { isGuest } from "../services/guestCheck.js";
+import { checkGuest } from "../middleware/isGuest.js";
 
 const router = express.Router();
 
 // PUT /account/me
-router.put("/me", authenticateToken, async (req, res) => {
+router.put("/me", authenticateToken, checkGuest, async (req, res) => {
   const { first_name, last_name, email } = req.body;
   const user_id = req.user.userId;
 
@@ -39,7 +41,7 @@ router.put("/me", authenticateToken, async (req, res) => {
        SET ${fields.join(", ")}
        WHERE user_id = $${idx}
        RETURNING user_id, first_name, last_name, email`,
-      [...values, user_id]
+      [...values, user_id],
     );
 
     if (result.rowCount === 0) {

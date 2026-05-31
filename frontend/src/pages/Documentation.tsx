@@ -41,7 +41,7 @@ const Documentation = () => {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <BookOpen className="w-5 h-5 text-violet-600" />
-              Was ist Zynqly Smart-Kassa?
+              Was ist Smart-Kassa?
             </CardTitle>
             <CardDescription>
               Ein modernes Kassensystem für Taxiunternehmen
@@ -49,7 +49,7 @@ const Documentation = () => {
           </CardHeader>
           <CardContent className="space-y-4">
             <p className="text-sm text-muted-foreground">
-              Zynqly Smart-Kassa ist ein vollständiges Register-System, das
+              Zynqlys Smart-Kassa ist ein vollständiges Register-System, das
               speziell für Taxi-Unternehmen entwickelt wurde. Das System bietet
               GPS-Tracking, automatische Rechnungsgenerierung und umfassende
               Analytics.

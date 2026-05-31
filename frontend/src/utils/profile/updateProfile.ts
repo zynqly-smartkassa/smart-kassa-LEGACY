@@ -46,7 +46,6 @@ export async function updateProfile(
   } catch (error) {
     if (error instanceof AxiosError) {
       const isAuthError =
-        error.status === 403 ||
         error.status === 401 ||
         error.response?.data?.path === "auth middleware";
 
@@ -63,6 +62,8 @@ export async function updateProfile(
         throw new Error(
           "Ungültige Eingabe. Bitte überprüfen Sie Ihre Angaben.",
         );
+      } else if (error.status === 403) {
+        throw new Error("Gast Nutzer kann sein Profil nicht verändern");
       } else {
         throw new Error(
           "Profil konnte nicht aktualisiert werden. Bitte versuchen Sie es erneut.",

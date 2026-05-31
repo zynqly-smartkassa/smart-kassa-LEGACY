@@ -2,6 +2,7 @@ import express from "express";
 import pool from "../db.js";
 import argon2 from "argon2";
 import { authenticateToken } from "../middleware/auth.js";
+import { checkGuest } from "../middleware/isGuest.js";
 
 const router = express.Router();
 
@@ -11,7 +12,7 @@ const router = express.Router();
  * Requires password confirmation for safety
  * uses both tokens
  */
-router.delete("/", authenticateToken, async (req, res) => {
+router.delete("/", authenticateToken, checkGuest, async (req, res) => {
   const { password } = req.body;
   const refreshToken = req.cookies.refreshToken;
   const user_id = req.user.userId;

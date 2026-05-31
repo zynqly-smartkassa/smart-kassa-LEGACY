@@ -47,7 +47,7 @@ export const Email = ({
         <Container className="mx-auto my-0 py-0 px-5">
           <Section className="mt-8">
             <Img
-              src={`${baseUrl}/Logo.png`}
+              src={`${baseUrl}/Logo.webp`}
               width="180"
               height="100"
               alt="Zynqly"
@@ -75,7 +75,7 @@ export const Email = ({
             <Row className="mb-8 pl-2 pr-2">
               <Column className="w-2/3">
                 <Img
-                  src={`${baseUrl}/Logo.png`}
+                  src={`${baseUrl}/Logo.webp`}
                   width="120"
                   height="70"
                   alt="Zynqly"

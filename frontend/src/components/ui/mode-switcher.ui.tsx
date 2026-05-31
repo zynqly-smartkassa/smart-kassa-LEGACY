@@ -1,4 +1,4 @@
-import Logo from "/Logo.png";
+import Logo from "/Logo.webp";
 import { useTheme } from "../../hooks/layout/useTheme";
 
 const ModeSwitcherUi = () => {

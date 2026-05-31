@@ -21,6 +21,8 @@ import { handleRegisterError } from "../../utils/errorHandling";
 import FormField from "../../components/inputs/Inputs";
 import FormPasswordField from "../../components/inputs/PasswordInputs";
 import { useCheckForNews } from "../../hooks/userfeedback/useNews";
+import { login } from "../../utils/auth/auth";
+import { handleLoginError } from "../../utils/errorHandling";
 
 const registerSchema = z
   .object({
@@ -35,19 +37,35 @@ const registerSchema = z
     telefon: z
       .string()
       .min(7, "Bitte geben Sie eine gültige Telefonnummer ein (7-20 Zeichen)")
-      .regex(/^[\d\s+()-]{7,20}$/, "Bitte geben Sie eine gültige Telefonnummer ein (7-20 Zeichen)"),
+      .regex(
+        /^[\d\s+()-]{7,20}$/,
+        "Bitte geben Sie eine gültige Telefonnummer ein (7-20 Zeichen)",
+      ),
     firmenbuchnummer: z
       .string()
-      .regex(/^FN\d{6}[a-z]$/, "Bitte geben Sie eine gültige Firmenbuchnummer ein (Format:FN123456a)"),
+      .regex(
+        /^FN\d{6}[a-z]$/,
+        "Bitte geben Sie eine gültige Firmenbuchnummer ein (Format:FN123456a)",
+      ),
     atu: z
       .string()
       .transform((val) => val.trim().replace(/[\s/]/g, ""))
-      .pipe(z.string().regex(/^ATU\d{9}$/, "Bitte geben Sie eine gültige Umsatzsteuer-ID ein (Format: ATU123456789)")),
+      .pipe(
+        z
+          .string()
+          .regex(
+            /^ATU\d{9}$/,
+            "Bitte geben Sie eine gültige Umsatzsteuer-ID ein (Format: ATU123456789)",
+          ),
+      ),
     password: z
       .string()
       .min(8, "Das Passwort muss mindestens 8 Zeichen enthalten")
       .regex(/[0-9]/, "Das Passwort muss mindestens eine Zahl enthalten")
-      .regex(/[!@#$%^&*()§_+=[\]{};':"\\|,.<>/?-]/, "Das Passwort muss mindestens ein Sonderzeichen enthalten"),
+      .regex(
+        /[!@#$%^&*()§_+=[\]{};':"\\|,.<>/?-]/,
+        "Das Passwort muss mindestens ein Sonderzeichen enthalten",
+      ),
     confirmPassword: z.string().min(1, "Bitte bestätigen Sie Ihr Passwort"),
   })
   .refine((data) => data.confirmPassword === data.password, {
@@ -81,7 +99,11 @@ function Register() {
     mode: "onTouched",
   });
 
-  useWarningToast(toastState.showWarning, "Hinweis: Sie müssen sich anmelden oder registrieren, bevor Sie unseren Service nutzen können.", dispatch);
+  useWarningToast(
+    toastState.showWarning,
+    "Hinweis: Sie müssen sich anmelden oder registrieren, bevor Sie unseren Service nutzen können.",
+    dispatch,
+  );
 
   const onSubmit = async (data: RegisterFormData) => {
     toast.promise(
@@ -114,7 +136,7 @@ function Register() {
     <main className="py-7 min-w-screen min-h-screen flex justify-center items-center bg-zinc-200 dark:bg-black overflow-y-auto scrollbar-hide pt-5 md:pt-2">
       <Card className="w-11/12 max-w-sm md:max-w-xl my-5 dark:bg-zinc-900 pt-4">
         <img
-          src="Logo.png"
+          src="Logo.webp"
           width={220}
           height={220}
           alt="Logo"
@@ -122,7 +144,9 @@ function Register() {
         />
         <CardHeader className="text-center">
           <CardTitle>Konto erstellen</CardTitle>
-          <CardDescription>Bitte geben Sie Ihre Daten ein, um ein Konto zu erstellen</CardDescription>
+          <CardDescription>
+            Bitte geben Sie Ihre Daten ein, um ein Konto zu erstellen
+          </CardDescription>
         </CardHeader>
         <form onSubmit={handleSubmit(onSubmit)}>
           <CardContent>
@@ -237,14 +261,37 @@ function Register() {
             >
               Jetzt registrieren
             </Button>
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full"
+              onClick={() => {
+                toast.promise(
+                  async () => {
+                    await login(
+                      "guestaccount@gmail.com",
+                      "Passwort#1",
+                      dispatch,
+                    );
+                  },
+                  {
+                    loading: "Anmelden...",
+                    success: async () => {
+                      await navigator("/");
+                      return "Erfolg: Login erfolgreich! Sie werden weitergeleitet...";
+                    },
+                    error: (err) => handleLoginError(err),
+                    className: "mt-5 md:mt-0",
+                  },
+                );
+              }}
+            >
+              Als Gast Fortfahren
+            </Button>
             <div className="w-full flex justify-center mt-2 text-center">
               <div className="text-sm text-muted-foreground">
                 <p>Bereits registriert?</p>
-                <Link
-                  to="/login"
-                  className="auth-link"
-                  data-testid="loginLink"
-                >
+                <Link to="/login" className="auth-link" data-testid="loginLink">
                   Jetzt anmelden
                 </Link>
               </div>

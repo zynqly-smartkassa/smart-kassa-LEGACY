@@ -11,6 +11,7 @@ import {
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import invoicePDFService from "../services/invoicePDF.service.js";
 import pool from "../db.js";
+import { checkGuest } from "../middleware/isGuest.js";
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
@@ -277,6 +278,7 @@ router.get("/avatar", authenticateToken, async (req, res) => {
 router.put(
   "/avatar",
   authenticateToken,
+  checkGuest,
   upload.single("newAvatar"),
   async (req, res) => {
     try {
